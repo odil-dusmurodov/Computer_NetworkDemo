@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: websocket-apocalypse-demo
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
