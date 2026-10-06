@@ -1,0 +1,12 @@
+{
+  "name": "websocket-apocalypse-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A classroom WebSocket demo with live updates and failure simulations.",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
+}

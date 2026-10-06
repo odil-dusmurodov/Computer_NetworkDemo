@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d1326">
+  <title>WebSocket Apocalypse</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand-mark" aria-hidden="true">↔</div>
+      <div><p class="eyebrow">COMPUTER NETWORKS · LIVE EXPERIMENT</p><h1>WebSocket Apocalypse</h1></div>
+      <div class="connection-pill"><span id="connectionDot" class="dot"></span><span id="connectionText">Not connected</span></div>
+    </header>
+
+    <section id="joinPanel" class="join-panel">
+      <div>
+        <p class="eyebrow">JOIN THE EXPERIMENT</p>
+        <h2>Your phone is a live client</h2>
+        <p class="muted">Choose a name, connect, and send updates to the whole room.</p>
+      </div>
+      <form id="joinForm" class="join-form">
+        <label class="sr-only" for="nameInput">Your name</label>
+        <input id="nameInput" maxlength="18" autocomplete="nickname" placeholder="Your name" required>
+        <button class="button primary" type="submit">Connect</button>
+      </form>
+    </section>
+
+    <section id="room" class="room hidden" aria-live="polite">
+      <div class="hero-row">
+        <div>
+          <p class="eyebrow">SHARED ROOM</p>
+          <h2>Can the room stay in sync?</h2>
+          <p class="muted">Tap the button. Every connected screen should update.</p>
+        </div>
+        <button id="tapButton" class="tap-button" type="button"><span>＋</span><strong>Send live update</strong><small>one tap → server → everyone</small></button>
+      </div>
+
+      <div class="metrics">
+        <article class="metric"><span>CONNECTED CLIENTS</span><strong id="connectedCount">0</strong></article>
+        <article class="metric"><span>YOUR ROOM COUNT</span><strong id="localCount">0</strong></article>
+        <article class="metric"><span>SERVER COUNT</span><strong id="serverCount">0</strong></article>
+        <article class="metric"><span>APP ROUND-TRIP</span><strong><b id="rtt">—</b><small> ms</small></strong></article>
+      </div>
+
+      <div class="lab-grid">
+        <section class="panel controls">
+          <div class="panel-heading"><div><p class="eyebrow">OPERATOR CONTROLS</p><h3>Change the conditions</h3></div><span id="modeBadge" class="mode-badge">NORMAL</span></div>
+          <p class="muted compact">These buttons simulate problems at the application layer.</p>
+          <div class="control-list">
+            <button class="control-button selected" data-mode="normal" type="button"><span class="control-icon green">●</span><span><strong>Normal</strong><small>Deliver each update</small></span></button>
+            <button class="control-button" data-mode="delay" type="button"><span class="control-icon amber">◷</span><span><strong>Add delay</strong><small>Hold server messages for 900 ms</small></span></button>
+            <button class="control-button" data-mode="drop" type="button"><span class="control-icon red">×</span><span><strong>Drop some updates</strong><small>Skip about one in three app messages</small></span></button>
+          </div>
+          <div class="button-row">
+            <button id="syncButton" class="button secondary" type="button">Resync the room</button>
+            <button id="outageButton" class="button danger" type="button">Simulate server outage</button>
+          </div>
+          <p id="notice" class="notice" role="status">Ready when the room is connected.</p>
+        </section>
+
+        <section class="panel activity-panel">
+          <div class="panel-heading"><div><p class="eyebrow">LIVE TRAFFIC</p><h3>What the room sees</h3></div><span class="live-label"><i></i> LIVE</span></div>
+          <div class="traffic-row"><span>Application events</span><strong id="eventCount">0</strong></div>
+          <div class="traffic-row"><span>Delivered to clients</span><strong id="deliveredCount">0</strong></div>
+          <div class="traffic-row"><span>Intentionally skipped</span><strong id="droppedCount">0</strong></div>
+          <ol id="feed" class="feed"><li class="empty-feed">Room events will appear here.</li></ol>
+        </section>
+      </div>
+      <p class="footnote">The “drop” control skips application updates; TCP packet loss is recovered by TCP. The outage control closes client connections and makes the service unavailable briefly, then clients reconnect and receive a fresh snapshot.</p>
+    </section>
+
+    <footer><span>WebSocket carries messages both ways over a persistent connection.</span><span id="transportLabel">Waiting to connect</span></footer>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>
